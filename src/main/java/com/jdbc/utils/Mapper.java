@@ -37,5 +37,31 @@ public class Mapper {
 		}
 		return employees;
 	}
+	
+	
+	public static List<Trip> mapToTrips(ResultSet resultSet) throws SQLException {
+		List<Trip> trips = new ArrayList<Trip>();
+		while(resultSet.next()) {
+			int id = resultSet.getInt("tripId");
+			int bookedTicketNumber = resultSet.getInt("bookedTicketNumber");
+			String carType = resultSet.getString("carType");
+			String departureDate = resultSet.getString("departureDate");
+			String departureTime = resultSet.getString("departureTime");
+			String destination = resultSet.getString("destination");
+			String driver = resultSet.getString("driver");
+			int maximumTiketOnlineNumber = resultSet.getInt("maximumOnlineTicketNumber");
+			Trip trip = new Trip();
+			trip.setBookedTicketNumber(bookedTicketNumber);
+			trip.setCarType(carType);
+			trip.setDepartureDate(departureDate);
+			trip.setDepartureTime(departureTime);
+			trip.setDestination(destination);
+			trip.setDriver(driver);
+			trip.setId(id);
+			trip.setMaximumOnlineTicketNumber(maximumTiketOnlineNumber);
+			trips.add(trip);
+		}
+		return trips;
+	}
 
 }
