@@ -115,7 +115,7 @@
             <form class="filter_form" action="<%=request.getContextPath()%>/list-Parking-Lot" method="post">
                 <div class="filter_input">
                     <i class="bi bi-search"></i>
-                    <input type="text" id="search_input" value="${search_input}" name="search_input" placeholder="Parking Lot search">
+                    <input type="text" id="search_input" value="${search}" name="search" placeholder="Parking Lot search">
                 </div>
                 <div class="filter_by">
                     <i class="bi bi-funnel-fill">Filter by</i>
@@ -165,27 +165,18 @@
 
                 </table>
             </div>
-
-            <!-- <div class="pagination">
-                <a href="#">&laquo;</a>
-                <a href="#">1</a>
-                <a href="#" class="active">2</a>
-                <a href="#">3</a>
-                <a href="#">4</a>
-                <a href="#">5</a>
-                <a href="#">6</a>
-                <a href="#">&raquo;</a>
-            </div> -->
+<c:if test="${totalPage != 0 }">
+          <div class="pagination">
+                <a href="#" id="pre">&laquo;</a>
+                 <c:forEach begin="1" end="${totalPage }" var="i">
+                <a href="list-Parking-Lot?pageParkingLot=${i }" class=${ pageParkingLot==i?"active":""}>${i }</a>
+                </c:forEach>
+                
+                <a href="#" id="next">&raquo;</a>
+            </div>
+            </c:if>
             
-            <!--  <input type="hidden" id="page" value="${page}">
-				<input type="hidden" id="totalPage" value="${totalPage}">
-				<button class="btn-last" id="p">Previous</button>
-				
-				<c:forEach var = "i" begin = "1" end = "${totalPage}">
-			       <button class="btn-last ${i==page?'my-active':''}" id="${i}">${i}</button>
-			    </c:forEach> 
-				
-				<button class="btn-last" id="next">Next</button> -->
+            
 				
 				
         </div>

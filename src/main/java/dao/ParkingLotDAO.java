@@ -156,22 +156,30 @@ public class ParkingLotDAO {
 	public List<ParkingLot> searchParkingLot(String key, String by, int pageNumber, int elementPerPage) {
 		String sql = "";
 		if(by.equalsIgnoreCase("Name")) {
-			sql = " SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY parkId) AS rownumber "
-					+ "FROM Parkinglot WHERE parkName LIKE ? ) "
-					+ "AS articles WHERE articles.rownumber >= ? AND articles.rownumber <=?";
+			sql = " SELECT * FROM parkinglot\r\n"
+					+ "	where  parkName LIKE ? \r\n"
+					+ "	ORDER BY parkId\r\n"
+					+ "	OFFSET ? ROWS\r\n"
+					+ "	FETCH first ? ROWS ONLY;";
 			
 		} else if(by.equalsIgnoreCase("Place")) {
-			sql = " SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY parkId) AS rownumber "
-					+ "FROM Parkinglot WHERE parkPlace LIKE ? ) AS articles "
-					+ "WHERE articles.rownumber >= ? AND articles.rownumber <=?";
+			sql =" SELECT * FROM parkinglot\r\n"
+					+ "	where  parkPlace LIKE ? \r\n"
+					+ "	ORDER BY parkId\r\n"
+					+ "	OFFSET ? ROWS\r\n"
+					+ "	FETCH first ? ROWS ONLY;";
 		}else if(by.equalsIgnoreCase("Area")) {
-			sql="SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY parkId) AS rownumber \"\r\n"
-					+ "FROM Parkinglot WHERE parkArea LIKE ? ) AS articles \"\r\n"
-					+ "WHERE articles.rownumber >= ? AND articles.rownumber <=?";
+			sql=" SELECT * FROM parkinglot\r\n"
+					+ "	where  parkArea LIKE ? \r\n"
+					+ "	ORDER BY parkId\r\n"
+					+ "	OFFSET ? ROWS\r\n"
+					+ "	FETCH first ? ROWS ONLY;";
 		}else {
-			sql="SELECT * FROM (SELECT *, ROW_NUMBER() OVER (ORDER BY parkId) AS rownumber \\\"\\r\\n\"\r\n"
-					+ "FROM Parkinglot WHERE parkPrice LIKE ? ) AS articles \\\"\\r\\n\"\r\n"
-					+ "WHERE articles.rownumber >= ? AND articles.rownumber <=?";
+			sql=" SELECT * FROM parkinglot\r\n"
+					+ "	where parkPrice LIKE ? \r\n"
+					+ "	ORDER BY parkId\r\n"
+					+ "	OFFSET ? ROWS\r\n"
+					+ "	FETCH first ? ROWS ONLY;";
 		}
 		
 		try(Connection connection = ConnectionDB.getInstance().getConnection();

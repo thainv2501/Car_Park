@@ -10,9 +10,11 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import dao.BookingOfficeDAO;
 import model.BookingOffice;
+import model.ParkingLot;
 
 /**
  * Servlet implementation class listBookOffice
@@ -34,38 +36,25 @@ public class listBookOfficeController extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		
+		HttpSession ses = request.getSession();
 		BookingOfficeDAO bod = new BookingOfficeDAO();
-		List<BookingOffice> bookingoffices = bod.getAllBookingOffice();
-//		request.setAttribute("bookingoffices", bookingoffices);
-//		request.setAttribute("by", "name");
-//		request.getRequestDispatcher("view/ListBookingOffice.jsp").forward(request, response);
-		String xpage= request.getParameter("page");
 		
-		if(xpage==null) {
-			xpage="1";
+		int pageBookOffice = 1;
+		if(request.getParameter("pageBookOffice")!=null) {
+			pageBookOffice = Integer.parseInt( request.getParameter("pageBookOffice"));
 		}
-		int page=Integer.parseInt(xpage);
+		
 		int elementPerPage = 5;
-		List<BookingOffice> list = bod.searchBookingOffice("", "Name", page, elementPerPage);
+		List<BookingOffice> list = bod.searchBookingOffice("", "name", pageBookOffice, elementPerPage);
 		request.setAttribute("search", "");
-		request.setAttribute("filter", "Name");
-		request.setAttribute("page", page);
+		if(ses.getAttribute("filter")==null) {
+			ses.setAttribute("filter", "name");
+		}
+		request.setAttribute("pageBookOffice", pageBookOffice);
 		request.setAttribute("bookingOffices", list);
-		request.setAttribute("totalPage", Math.ceil((double)bod.searchTotalPage("", "Name")/elementPerPage));
+		request.setAttribute("totalPage", Math.ceil((double)bod.searchTotalPage("", "name")/elementPerPage));
 		request.getRequestDispatcher("view/ListBookingOffice.jsp").forward(request, response);
 		
-//		int size= bookingoffices.size();
-//		int num=(size % 5 == 0)?(size/5):( (size/5)+1 );
-//		String Xpage= request.getParameter("page");
-//		if(Xpage == null) {
-//			page=1;
-//		}else {
-//			page= Integer.parseInt(Xpage);
-//		}
-//		int begin, end;
-//		begin=(page-1) * elementPerPage;
-//		end= Math.min(page*elementPerPage, size);
 		
 		
 	}
@@ -76,6 +65,7 @@ public class listBookOfficeController extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
+		HttpSession ses = request.getSession();
 		BookingOfficeDAO bdb = new BookingOfficeDAO();
 		String search = request.getParameter("search");
 		String by = request.getParameter("filter");
@@ -91,7 +81,7 @@ public class listBookOfficeController extends HttpServlet {
 		}
 		List<BookingOffice> list = bdb.searchBookingOffice(search, by, page, elementPerPage);
 		request.setAttribute("search", search);
-		request.setAttribute("filter", by);
+		ses.setAttribute("filter", by);
 		request.setAttribute("page", page);
 		request.setAttribute("bookingOffices", list);
 		request.setAttribute("totalPage", Math.ceil((double)bdb.searchTotalPage(search, by)/elementPerPage));

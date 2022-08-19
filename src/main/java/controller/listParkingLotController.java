@@ -43,17 +43,15 @@ public class listParkingLotController extends HttpServlet {
 		// TODO Auto-generated method stub
 		//response.getWriter().append("Served at: ").append(request.getContextPath());
 		ParkingLotDAO pld= new ParkingLotDAO();
-//		List<ParkingLot> parkinglots = pld.getAllParkingLot();
-//		request.setAttribute("parkinglots", parkinglots );
-//		request.setAttribute("by", "name");
-//		request.getRequestDispatcher("view/ListParkingLot.jsp").forward(request, response);
-		
-		int page = 1;
+		int pageParkingLot = 1;
+		if(request.getParameter("pageParkingLot")!=null) {
+			 pageParkingLot = Integer.parseInt( request.getParameter("pageParkingLot"));
+		}
 		int elementPerPage = 5;
-		List<ParkingLot> list = pld.searchParkingLot("", "name", page, elementPerPage);
-		request.setAttribute("search_input", "");
+		List<ParkingLot> list = pld.searchParkingLot("", "name", pageParkingLot, elementPerPage);
+		request.setAttribute("search", "");
 		request.setAttribute("filter", "name");
-		request.setAttribute("page", page);
+		request.setAttribute("pageParkingLot", pageParkingLot);
 		request.setAttribute("parkinglots", list);
 		request.setAttribute("totalPage", Math.ceil((double)pld.searchTotalPage("", "name")/elementPerPage));
 		request.getRequestDispatcher("view/ListParkingLot.jsp").forward(request, response);
@@ -67,8 +65,8 @@ public class listParkingLotController extends HttpServlet {
 		// TODO Auto-generated method stub
 		//doGet(request, response);
 		ParkingLotDAO pld = new ParkingLotDAO();
-		String search = request.getParameter("search_input");
-		String by = request.getParameter("filter");
+		String search = request.getParameter("search");
+		String filter = request.getParameter("filter");
 		if(search==null) {
 			search = "";
 		}
@@ -79,12 +77,12 @@ public class listParkingLotController extends HttpServlet {
 		} catch (NumberFormatException e) {
 			
 		}
-		List<ParkingLot> list = pld.searchParkingLot(search, by, page, elementPerPage);
-		request.setAttribute("search_input", search);
-		request.setAttribute("filter", by);
+		List<ParkingLot> list = pld.searchParkingLot(search, filter, page, elementPerPage);
+		request.setAttribute("search", search);
+		request.setAttribute("filter", filter);
 		request.setAttribute("page", page);
 		request.setAttribute("parkinglots", list);
-		request.setAttribute("totalPage", Math.ceil((double)pld.searchTotalPage(search, by)/elementPerPage));
+		request.setAttribute("totalPage", Math.ceil((double)pld.searchTotalPage(search, filter)/elementPerPage));
 		request.getRequestDispatcher("view/ListParkingLot.jsp").forward(request, response);
 	}
 

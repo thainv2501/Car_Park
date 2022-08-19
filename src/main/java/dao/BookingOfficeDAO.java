@@ -85,12 +85,12 @@ public class BookingOfficeDAO {
 			sql = " SELECT b.*, t.destination AS tripDestination "
 					+ "FROM bookingoffice b "
 					+ "JOIN trip t ON b.tripId = t.tripId "
-					+ "WHERE b.officeName LIKE ? ORDER BY b.officeId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+					+ "WHERE b.officeName LIKE ? ORDER BY b.officeId OFFSET ? ROWS FETCH first ? ROWS ONLY";
 		} else {
 			sql = " SELECT b.*, t.destination AS tripDestination "
 					+ "FROM bookingoffice b "
 					+ "JOIN trip t ON b.tripId = t.tripId "
-					+ "WHERE t.destination LIKE ? ORDER BY b.officeId OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+					+ "WHERE t.destination LIKE ? ORDER BY b.officeId OFFSET ? ROWS FETCH first ? ROWS ONLY";
 		}
 		
 		try(Connection connection = ConnectionDB.getInstance().getConnection();
@@ -109,8 +109,8 @@ public class BookingOfficeDAO {
 	public int searchTotalPage(String key, String by) {
 		String sql = "";
 		if(by.equalsIgnoreCase("Name")) {
-			sql = "\" SELECT COUNT(*) AS COUNT FROM bookingoffice b \"\r\n"
-					+ " JOIN trip t ON b.tripId = t.tripId WHERE b.officeName LIKE ?\"";
+			sql = " SELECT COUNT(*) AS COUNT FROM bookingoffice b \r\n"
+					+ " JOIN trip t ON b.tripId = t.tripId WHERE b.officeName LIKE ?";
 		} else {
 			sql = " SELECT COUNT(*) AS COUNT FROM bookingoffice b "
 					+ " JOIN trip t ON b.tripId = t.tripId WHERE t.destination LIKE ?";

@@ -103,7 +103,7 @@
             <form class="filter_form" action="<%=request.getContextPath()%>/list-Book-Office" method="post">
                 <div class="filter_input">
                     <i class="bi bi-search"></i>
-                    <input type="text" id="search_input" value="${search_input}" name="search" placeholder="Booking Office search">
+                    <input type="text" id="search_input" value="${search}" name="search" placeholder="Booking Office search">
                 </div>
                 <div class="filter_by">
                     <i class="bi bi-funnel-fill">Filter by</i>
@@ -140,16 +140,17 @@
                 </table>
             </div>
 
-			  <div class="pagination">
-            <a href="#">&laquo;</a>  
-              
-               <c:forEach begin="1" end="${requestScope.totalPage}" var="i">
-              	 <a href="list-Book-Office?page=${i}">${i}</a>            
-               </c:forEach>
-               
-             <a href="#">&raquo;</a>          
+<c:if test="${totalPage != 0 }">
+          <div class="pagination">
+                <a href="#" id="pre">&laquo;</a>
+                 <c:forEach begin="1" end="${totalPage }" var="i">
+                 
+                <a href="list-Book-Office?pageBookOffice=${i }" class=${ pageBookOffice==i?"active":""}>${i }</a>
+                </c:forEach>
+                
+                <a href="#" id="next">&raquo;</a>
             </div>
-        </div>	
+            </c:if>
 				
 	
 
