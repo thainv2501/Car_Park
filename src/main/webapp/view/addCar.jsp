@@ -5,6 +5,7 @@
 	pageEncoding="UTF-8"%>
 	
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+
 <%@page import="model.Ticket"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dao.TicketDAO"%>
