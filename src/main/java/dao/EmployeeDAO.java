@@ -76,7 +76,44 @@ public class EmployeeDAO {
 			}
 		}
 	
+	//login employee
+	public Employee loginEmployee(String username,String password) {
+		String sql="Select * from employee where account = ? and password =?";
+		try(Connection connection =ConnectionDB.getInstance().getConnection()) {
+			PreparedStatement preparedStatement=connection.prepareStatement(sql);
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, password);
+			ResultSet rs=preparedStatement.executeQuery();
+			while(rs.next()) {
+				return new Employee(rs.getInt("employeeId"),rs.getString("account"),rs.getString("department"),
+						rs.getString("employeeAddress"),rs.getString("employeeBirthdate"),rs.getString("employeeEmail"),rs.getString("employeeName"),
+						rs.getString("employeePhone"),rs.getString("password"),rs.getString("sex"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
+	//login admin
+	public Admin loginAdmin(String username,String password) {
+		String sql="Select * from admin where account = ? and password =?";
+		try(Connection connection =ConnectionDB.getInstance().getConnection()) {
+			PreparedStatement preparedStatement=connection.prepareStatement(sql);
+			preparedStatement.setString(1, username);
+			preparedStatement.setString(2, password);
+			ResultSet rs=preparedStatement.executeQuery();
+			while(rs.next()) {
+				return new Admin(rs.getString("account"),rs.getString("password"));
+			}
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public static void main(String[] args) {
 		EmployeeDAO employeeDAO = new EmployeeDAO();
 		List<Employee> employees = employeeDAO.getAllEmployee();

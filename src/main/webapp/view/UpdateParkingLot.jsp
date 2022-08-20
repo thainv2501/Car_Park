@@ -31,28 +31,56 @@
             <i class="fas fa-map-marker-alt"></i>Parking lot
         </div>
         <div class="header_right">
-            <p class="welcome">Welcom Thai dep trai</p>
-            <a href="#"><i class="fa fa-sign-out"></i> Logout</a>
+            <h4 class="welcome">Welcome ${sessionScope.account.account} ${sessionScope.adminAcc.account}</h4>
+            <c:if test="${sessionScope.account!=null||sessionScope.adminAcc!=null}">
+            	<a href="logout"><i class="bi bi-box-arrow-in-right"></i> Logout</a>
+            </c:if>
         </div>
     </header>
     <div class="container">
         <div class="left primary_color">
             <div class="item">
-                <a href="#"><i class="bi bi-speedometer2"></i>Car park manager</a>
-            </div>
-            <!-- a dropdown list -->
+				<a href="#"><i class="bi bi-clipboard-data"></i> Dashboard</a>
+			</div>
+
+			<!-- Car  -->
+			<c:if test="${sessionScope.account!=null}">
             <div class="dropdown">
                 <div class="dropdown-select" onclick="displayDropdownList(this)">
-                    <span class="dropdown-value"><i class="fas fa-car-alt"></i>Car manager</span>
+                    <span class="dropdown-value"><i class="bi bi-bar-chart-steps"></i> Ticket Management</span>
                     <span><i class="bi bi-chevron-down"></i></span>
                 </div>
                 <div class="dropdown-list">
-                    <div class="dropdown-item"><i class="bi bi-list-stars"><a href="#"> Employee List</a></i></div>
-                    <div class="dropdown-item"><i class="bi bi-plus-circle-fill"> <a href="#">Add Employee</a></i></div>
+                    <div class="dropdown-item"><i class="bi bi-list-stars"><a href="/Car_Park/listTicket"> Ticket List</a></i></div>
+                    <div class="dropdown-item"><i class="bi bi-plus-circle-fill"> <a href="${pageContext.request.contextPath}/view/addTicket.jsp">Add Ticket</a></i></div>
                 </div>
             </div>
-
-            <!-- a dropdown list -->
+            
+            <!-- Car -->
+			<div class="dropdown">
+                <div class="dropdown-select" onclick="displayDropdownList(this)">
+                    <span class="dropdown-value"><i class="bi bi-bar-chart-steps"></i> Car Management</span>
+                    <span><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="dropdown-list">
+                    <div class="dropdown-item"><i class="bi bi-list-stars"><a href="/Car_Park/listCar"> Car List</a></i></div>
+                    <div class="dropdown-item"><i class="bi bi-plus-circle-fill"> <a href="${pageContext.request.contextPath}/view/addCar.jsp">Add Car</a></i></div>
+                </div>
+            </div>
+            
+            <!-- Trip -->
+            <div class="dropdown">
+                <div class="dropdown-select" onclick="displayDropdownList(this)">
+                    <span class="dropdown-value"><i class="bi bi-bar-chart-steps"></i>Trip Manager</span>
+                    <span><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="dropdown-list">
+                    <div class="dropdown-item"><i class="bi bi-list-stars"><a href="${pageContext.request.contextPath}/listtrip">Trip List</a></i></div>
+                    <div class="dropdown-item"><i class="bi bi-plus-circle-fill"> <a href="${pageContext.request.contextPath}/addtrip">Add Trip</a></i></div>
+                </div>
+            </div>
+			
+			<!-- a dropdown list -->
 
             <div class="dropdown">
                 <div class="dropdown-select" onclick="displayDropdownList(this)">
@@ -62,12 +90,12 @@
                 <div class="dropdown-list">
                     <div class="dropdown-item">
                         <i class="bi bi-list-stars">
-                            <a href="listBookOffice">Booking office list</a>
+                            <a href="${pageContext.request.contextPath}/list-Book-Office">Booking office list</a>
                         </i>
                     </div>
                     <div class="dropdown-item">
                         <i class="bi bi-plus-circle">
-                            <a href="#">Add Booking office</a>
+                            <a href="${pageContext.request.contextPath}/add-Booking-Office">Add Booking office</a>
                         </i>
                     </div>
                 </div>
@@ -83,16 +111,17 @@
                 <div class="dropdown-list">
                     <div class="dropdown-item">
                         <i class="bi bi-list-stars">
-                            <a href="list-Parking-Lot">Parking lot list</a>
+                            <a href="${pageContext.request.contextPath}/list-Parking-Lot">Parking lot list</a>
                         </i>
                     </div>
                     <div class="dropdown-item">
                         <i class="bi bi-plus-circle">
-                            <a href="add-Parking-Lot">Add Parking lot</a>
+                            <a href="${pageContext.request.contextPath}/add-Parking-Lot">Add Parking lot</a>
                         </i>
                     </div>
                 </div>
             </div>
+            </c:if>
 
         </div>
 
