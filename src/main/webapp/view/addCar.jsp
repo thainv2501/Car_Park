@@ -3,9 +3,7 @@
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-	
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
 <%@page import="model.Ticket"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="dao.TicketDAO"%>
@@ -47,8 +45,10 @@
 
 		</div>
 		<div class="header_right">
-			<h4 class="welcome">Welcom Thai dep trai</h4>
-			<a href="#"><i class="bi bi-box-arrow-in-right"></i> Logout</a>
+			<h4 class="welcome">Welcome ${sessionScope.account.account} ${sessionScope.adminAcc.account}</h4>
+            <c:if test="${sessionScope.account!=null||sessionScope.adminAcc!=null}">
+            	<a href="${pageContext.request.contextPath}/logout"><i class="bi bi-box-arrow-in-right"></i> Logout</a>
+            </c:if>
 		</div>
 	</header>
 	<div class="container">
@@ -58,26 +58,86 @@
 			</div>
 
 
-			<!-- Car  -->
-			<div class="dropdown">
-				<div class="dropdown-select" onclick="displayDropdownList(this)">
-					<span class="dropdown-value"><i
-						class="bi bi-bar-chart-steps"></i> Car Management</span> <span><i
-						class="bi bi-chevron-down"></i></span>
-				</div>
-				<div class="dropdown-list">
-					<div class="dropdown-item">
-						<i class="bi bi-list-stars"><a href="/Car_Park/listCar">
-								Car List</a></i>
-					</div>
-					<div class="dropdown-item">
-						<i class="bi bi-plus-circle-fill"> <a
-							href="${pageContext.request.contextPath}/view/addCar.jsp">Add
-								Car</a></i>
-					</div>
-				</div>
-			</div>
 
+			<!-- Car  -->
+			<c:if test="${sessionScope.account!=null}">
+            <div class="dropdown">
+                <div class="dropdown-select" onclick="displayDropdownList(this)">
+                    <span class="dropdown-value"><i class="bi bi-bar-chart-steps"></i> Ticket Management</span>
+                    <span><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="dropdown-list">
+                    <div class="dropdown-item"><i class="bi bi-list-stars"><a href="/Car_Park/listTicket"> Ticket List</a></i></div>
+                    <div class="dropdown-item"><i class="bi bi-plus-circle-fill"> <a href="${pageContext.request.contextPath}/view/addTicket.jsp">Add Ticket</a></i></div>
+                </div>
+            </div>
+            
+            <!-- Car -->
+			<div class="dropdown">
+                <div class="dropdown-select" onclick="displayDropdownList(this)">
+                    <span class="dropdown-value"><i class="bi bi-bar-chart-steps"></i> Car Management</span>
+                    <span><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="dropdown-list">
+                    <div class="dropdown-item"><i class="bi bi-list-stars"><a href="/Car_Park/listCar"> Car List</a></i></div>
+                    <div class="dropdown-item"><i class="bi bi-plus-circle-fill"> <a href="${pageContext.request.contextPath}/view/addCar.jsp">Add Car</a></i></div>
+                </div>
+            </div>
+            
+            <!-- Trip -->
+            <div class="dropdown">
+                <div class="dropdown-select" onclick="displayDropdownList(this)">
+                    <span class="dropdown-value"><i class="bi bi-bar-chart-steps"></i>Trip Manager</span>
+                    <span><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="dropdown-list">
+                    <div class="dropdown-item"><i class="bi bi-list-stars"><a href="${pageContext.request.contextPath}/listtrip">Trip List</a></i></div>
+                    <div class="dropdown-item"><i class="bi bi-plus-circle-fill"> <a href="${pageContext.request.contextPath}/addtrip">Add Trip</a></i></div>
+                </div>
+            </div>
+			
+			<!-- a dropdown list -->
+
+            <div class="dropdown">
+                <div class="dropdown-select" onclick="displayDropdownList(this)">
+                    <span class="dropdown-value"><i class="fas fa-cart-plus"></i>Booking office manager</span>
+                    <span><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="dropdown-list">
+                    <div class="dropdown-item">
+                        <i class="bi bi-list-stars">
+                            <a href="${pageContext.request.contextPath}/list-Book-Office">Booking office list</a>
+                        </i>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="bi bi-plus-circle">
+                            <a href="${pageContext.request.contextPath}/add-Booking-Office">Add Booking office</a>
+                        </i>
+                    </div>
+                </div>
+            </div>
+
+            <!-- a dropdown list -->
+
+            <div class="dropdown">
+                <div class="dropdown-select" onclick="displayDropdownList(this)">
+                    <span class="dropdown-value"><i class="fas fa-map-marker-alt"></i>Parking lot manager</span>
+                    <span><i class="bi bi-chevron-down"></i></span>
+                </div>
+                <div class="dropdown-list">
+                    <div class="dropdown-item">
+                        <i class="bi bi-list-stars">
+                            <a href="${pageContext.request.contextPath}/list-Parking-Lot">Parking lot list</a>
+                        </i>
+                    </div>
+                    <div class="dropdown-item">
+                        <i class="bi bi-plus-circle">
+                            <a href="${pageContext.request.contextPath}/add-Parking-Lot">Add Parking lot</a>
+                        </i>
+                    </div>
+                </div>
+            </div>
+            </c:if>
 
 		</div>
 		<div class="right">
