@@ -20,23 +20,24 @@ public class TripDAO {
 	private PreparedStatement ps;
 	private ResultSet rs;
 	private Connection connection = new ConnectionDB().getConnection();
-	
+
 	public Trip getOne(Trip t) {
-        String sql = "select * from trip where tripId = ?";
-        try {
-            ps = connection.prepareStatement(sql);
-            ps.setInt(1, t.getId());
-            rs = ps.executeQuery();
-            while (rs.next()) {
-                Trip trip = new Trip(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
-                return trip;
-            }
-        } catch (SQLException e) {
-        	e.printStackTrace();
-        }
-        return null;
-    }
-	
+		String sql = "select * from trip where tripId = ?";
+		try {
+			ps = connection.prepareStatement(sql);
+			ps.setInt(1, t.getId());
+			rs = ps.executeQuery();
+			while (rs.next()) {
+				Trip trip = new Trip(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
+				return trip;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
 	public ArrayList<Trip> getAll() {
 		ArrayList<Trip> list = new ArrayList<>();
 		try {
@@ -44,7 +45,8 @@ public class TripDAO {
 			ps = connection.prepareStatement(sql);
 			rs = ps.executeQuery();
 			while (rs.next()) {
-			Trip a = new Trip(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5), rs.getString(6), rs.getString(7), rs.getInt(8));
+				Trip a = new Trip(rs.getInt(1), rs.getInt(2), rs.getString(3), rs.getString(4), rs.getString(5),
+						rs.getString(6), rs.getString(7), rs.getInt(8));
 				list.add(a);
 			}
 			return list;
@@ -53,24 +55,25 @@ public class TripDAO {
 		}
 		return null;
 	}
-	
+
 	public List<Trip> getAllTrip() {
 		String sql = "SELECT * FROM [trip]";
-		try(Connection connection = ConnectionDB.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-			ResultSet resultSet =  preparedStatement.executeQuery();
+		try (Connection connection = ConnectionDB.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			ResultSet resultSet = preparedStatement.executeQuery();
 			return Mapper.mapToTrips(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		return null;
 	}
+
 	public List<Trip> searchAllTrip(String text) {
 		String sql = "select * from trip \r\n"
-				+ "where destination like '%"+ text + "%' ";
-		try(Connection connection = ConnectionDB.getInstance().getConnection();
-				PreparedStatement preparedStatement = connection.prepareStatement(sql)){
-			ResultSet resultSet =  preparedStatement.executeQuery();
+				+ "where destination like '%" + text + "%' ";
+		try (Connection connection = ConnectionDB.getInstance().getConnection();
+				PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+			ResultSet resultSet = preparedStatement.executeQuery();
 			return Mapper.mapToTrips(resultSet);
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -80,7 +83,7 @@ public class TripDAO {
 
 	public void addTrip(Trip b) {
 		String sql = "INSERT INTO dbo.trip( destination, departureTime, driver, carType, maximumOnlineTicketNumber, departureDate) VALUES (?, ?, ?, ?, ?, ?)";
-		try(Connection connection = ConnectionDB.getInstance().getConnection();
+		try (Connection connection = ConnectionDB.getInstance().getConnection();
 				PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
 			preparedStatement.setString(1, b.getDestination());
 			preparedStatement.setString(2, b.getDepartureTime());
@@ -107,22 +110,16 @@ public class TripDAO {
 
 	public void deleteTripId(int id) {
 
-		String sql = "delete from [bookingoffice] where tripId = ?\r\n"
-				+ "delete from [ticket] where tripId = ?\r\n"
-				+ "delete from [trip] where tripId= ? ";
+		String sql = "delete from [trip] where tripId=?";
 		try {
 			PreparedStatement st = connection.prepareStatement(sql);
-			st.setInt(1, id);
-			st.setInt(2, id);
-			st.setInt(3, id);
-
+			st.setString(1, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e);
 		}
 	}
-	
-    
+
 	public Trip getTripById(int id) {
 		ResultSet rs = null;
 		String sql = "SELECT * FROM dbo.trip WHERE TripId = ?";
@@ -131,10 +128,10 @@ public class TripDAO {
 			st.setInt(1, id);
 			rs = st.executeQuery();
 
-			while (rs.next()) {			
-				String a = rs.getString("departureTime");		
+			while (rs.next()) {
+				String a = rs.getString("departureTime");
 				Trip b = new Trip();
-				b.setId(id);			
+				b.setId(id);
 				b.setDestination(rs.getString("destination"));
 				b.setDepartureTime(a);
 				b.setDriver(rs.getString("driver"));
@@ -148,39 +145,38 @@ public class TripDAO {
 		}
 		return null;
 	}
-	
-	 public List<Trip> getlistTripByPage(List<Trip> list, int start, int end){
+
+	public List<Trip> getlistTripByPage(List<Trip> list, int start, int end) {
 		ArrayList<Trip> arr = new ArrayList<>();
-		 for(int i = start; i<end; i++) {
-			 arr.add(list.get(i));
-		 }
-		 return arr; 
-	 }
-	 
-	 public void updateTrip(Trip b) {
-			/* Prepared statement for executing sql queries */
-			try {
-				String sql = "UPDATE dbo.trip SET destination = ?, departureTime = ?, driver = ?, carType = ?, bookedTicketNumber = ?, departureDate = ? WHERE tripId = ?";
-				PreparedStatement pre = connection.prepareStatement(sql);
-				pre.setString(1, b.getDestination());
-				pre.setString(2, b.getDepartureTime());
-				pre.setString(3, b.getDriver());
-				pre.setString(4, b.getCarType());
-				pre.setInt(5, b.getBookedTicketNumber());
-				pre.setString(6, b.getDepartureDate());
-				pre.setInt(7, b.getId());
-				pre.executeQuery();
-			} catch (SQLException ex) {
-				Logger.getLogger(TripDAO.class.getName()).log(Level.SEVERE, null, ex);
-			}		
+		for (int i = start; i < end; i++) {
+			arr.add(list.get(i));
 		}
-	 
-	 
+		return arr;
+	}
+
+	public void updateTrip(Trip b) {
+		/* Prepared statement for executing sql queries */
+		try {
+			String sql = "UPDATE dbo.trip SET destination = ?, departureTime = ?, driver = ?, carType = ?, bookedTicketNumber = ?, departureDate = ? WHERE tripId = ?";
+			PreparedStatement pre = connection.prepareStatement(sql);
+			pre.setString(1, b.getDestination());
+			pre.setString(2, b.getDepartureTime());
+			pre.setString(3, b.getDriver());
+			pre.setString(4, b.getCarType());
+			pre.setInt(5, b.getBookedTicketNumber());
+			pre.setString(6, b.getDepartureDate());
+			pre.setInt(7, b.getId());
+			pre.executeQuery();
+		} catch (SQLException ex) {
+			Logger.getLogger(TripDAO.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
+
 	public static void main(String[] args) {
 		TripDAO tripDAO = new TripDAO();
-		List<Trip> trips= tripDAO.getAllTrip();
+		List<Trip> trips = tripDAO.getAllTrip();
 		for (Trip trip : trips) {
 			System.out.println(trip.toString());
-		}	
+		}
 	}
 }

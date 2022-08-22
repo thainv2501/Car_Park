@@ -199,7 +199,11 @@
         }
 
         function doDelete(id) {
+<<<<<<< HEAD
             if (confirm("Do you want to delete this id : " + id)) {
+=======
+            if (confirm("Do you want to delete this one id : " + id)) {
+>>>>>>> 036ecaf468b7596aaa78c7e66287e38df20a7933
                 window.location = "delete?id=" + id;
             }
         }

@@ -25,7 +25,7 @@ public class deleteTripServlet extends HttpServlet {
 		  int id = Integer.parseInt(request.getParameter("id"));
 	        TripDAO d = new TripDAO();
 	        d.deleteTripId(id);
-	        response.sendRedirect("listtrip");
+	        request.getRequestDispatcher("listtrip").forward(request, response);
 	}
 
 	/**
