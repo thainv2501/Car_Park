@@ -19,7 +19,9 @@ import model.Admin;
 import model.Employee;
 
 
-@WebFilter(filterName="AuthenticationFilter", urlPatterns= {"/*"})
+@WebFilter(filterName="AuthenticationFilter", urlPatterns= {"/add-Booking-Office","/addCar","/addEmployee","/add-Parking-Lot","/addTicket","/addtrip",
+		"/cms","/delete-Parking-Lot","/deleteTicket","/delete","/detail-Booking-Office","/update","/list-Book-Office","/listCar","/listEmployee",
+		"/list-Parking-Lot","/listTicket","/listtrip","/searchtrip","/update-Parking-Lot"})
 public class AuthenticationFilter implements Filter {
 
 	@Override
@@ -41,6 +43,7 @@ public class AuthenticationFilter implements Filter {
 			Cookie[] cookies=req.getCookies();
 			String username=null;
 			String password=null;
+			
 			for(Cookie cooky:cookies) {
 				if(cooky.getName().equals("username")) {
 					username=cooky.getValue();

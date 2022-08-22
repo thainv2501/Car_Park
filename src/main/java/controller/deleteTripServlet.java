@@ -22,7 +22,7 @@ public class deleteTripServlet extends HttpServlet {
      */
   
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		  String id = request.getParameter("id");
+		  int id = Integer.parseInt(request.getParameter("id"));
 	        TripDAO d = new TripDAO();
 	        d.deleteTripId(id);
 	        response.sendRedirect("listtrip");
