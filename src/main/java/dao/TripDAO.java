@@ -105,12 +105,16 @@ public class TripDAO {
 		}
 	}
 
-	public void deleteTripId(String id) {
+	public void deleteTripId(int id) {
 
-		String sql = "delete from [trip] where tripId=?";
+		String sql = "delete from [bookingoffice] where tripId = ?\r\n"
+				+ "delete from [ticket] where tripId = ?\r\n"
+				+ "delete from [trip] where tripId= ?";
 		try {
 			PreparedStatement st = connection.prepareStatement(sql);
-			st.setString(1, id);
+			st.setInt(1, id);
+			st.setInt(2, id);
+			st.setInt(3, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
 			System.out.println(e);

@@ -199,7 +199,7 @@
         }
 
         function doDelete(id) {
-            if (confirm("Do you want to delete this book?")) {
+            if (confirm("Do you want to delete this one id : " + id)) {
                 window.location = "delete?id=" + id;
             }
         }

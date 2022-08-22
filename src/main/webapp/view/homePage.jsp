@@ -11,12 +11,11 @@
 
 <body>
         <div id="header">
-        
-            <div class="login"><a href="#">LOGIN</a></div>
+            <div class="login"><a href="${pageContext.request.contextPath}/login">LOGIN</a></div>
         </div>
 
         <div class="map">
-            <img src="assets/img/map.jpg" alt="Map" >
+            <img src="../assets/img/map.jpg" alt="Map" >
         </div>
 </body>
 

@@ -87,7 +87,7 @@ public class listEmployee extends HttpServlet {
 			numberPage +=1;
 		}
 		ses.setAttribute("pageEmployeee", 1);
-		request.setAttribute("search_text", search_text);
+		ses.setAttribute("search_text", search_text);
 		ses.setAttribute("numberPage", numberPage);
 		ses.setAttribute("employees", employees);
 		request.getRequestDispatcher("view/listEmployee.jsp").forward(request, response);
